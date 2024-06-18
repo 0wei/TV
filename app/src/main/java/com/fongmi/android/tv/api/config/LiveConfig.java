@@ -20,12 +20,13 @@ import com.fongmi.android.tv.utils.Notify;
 import com.github.catvod.utils.Json;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LiveConfig {
-
+    public static final String TAG = "LiveConfig";
     private List<Live> lives;
     private Config config;
     private boolean sync;
@@ -98,10 +99,12 @@ public class LiveConfig {
     }
 
     private void loadConfig(Callback callback) {
+        String url = config.getUrl();
+        Logger.t(TAG).d("live load config:"+url);
         try {
-            parseConfig(Decoder.getJson(config.getUrl()), callback);
+            parseConfig(Decoder.getJson(url), callback);
         } catch (Throwable e) {
-            if (TextUtils.isEmpty(config.getUrl())) App.post(() -> callback.error(""));
+            if (TextUtils.isEmpty(url)) App.post(() -> callback.error(""));
             else App.post(() -> callback.error(Notify.getError(R.string.error_config_get, e)));
             e.printStackTrace();
         }

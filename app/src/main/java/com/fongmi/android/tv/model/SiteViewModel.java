@@ -24,10 +24,10 @@ import com.fongmi.android.tv.player.extractor.Thunder;
 import com.fongmi.android.tv.utils.ResUtil;
 import com.fongmi.android.tv.utils.Sniffer;
 import com.github.catvod.crawler.Spider;
-import com.github.catvod.crawler.SpiderDebug;
 import com.github.catvod.net.OkHttp;
 import com.github.catvod.utils.Trans;
 import com.github.catvod.utils.Util;
+import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,23 +70,24 @@ public class SiteViewModel extends ViewModel {
             if (site.getType() == 3) {
                 Spider spider = VodConfig.get().getSpider(site);
                 String homeContent = spider.homeContent(true);
-                SpiderDebug.log(homeContent);
+                Logger.d("Spider:"+homeContent);
+                
                 VodConfig.get().setRecent(site);
                 Result result = Result.fromJson(homeContent);
                 if (result.getList().size() > 0) return result;
                 String homeVideoContent = spider.homeVideoContent();
-                SpiderDebug.log(homeVideoContent);
+                Logger.d("Spider:"+homeVideoContent);
                 result.setList(Result.fromJson(homeVideoContent).getList());
                 return result;
             } else if (site.getType() == 4) {
                 ArrayMap<String, String> params = new ArrayMap<>();
                 params.put("filter", "true");
                 String homeContent = call(site, params, false);
-                SpiderDebug.log(homeContent);
+                Logger.d("Spider:"+homeContent);
                 return Result.fromJson(homeContent);
             } else {
                 String homeContent = OkHttp.newCall(site.getApi(), site.getHeaders()).execute().body().string();
-                SpiderDebug.log(homeContent);
+                Logger.d("Spider:"+homeContent);
                 return fetchPic(site, Result.fromType(site.getType(), homeContent));
             }
         });
@@ -98,7 +99,7 @@ public class SiteViewModel extends ViewModel {
             if (site.getType() == 3) {
                 Spider spider = VodConfig.get().getSpider(site);
                 String categoryContent = spider.categoryContent(tid, page, filter, extend);
-                SpiderDebug.log(categoryContent);
+                Logger.d("Spider:"+categoryContent);
                 VodConfig.get().setRecent(site);
                 return Result.fromJson(categoryContent);
             } else {
@@ -109,7 +110,7 @@ public class SiteViewModel extends ViewModel {
                 params.put("t", tid);
                 params.put("pg", page);
                 String categoryContent = call(site, params, true);
-                SpiderDebug.log(categoryContent);
+                Logger.d("Spider:"+categoryContent);
                 return Result.fromType(site.getType(), categoryContent);
             }
         });
@@ -121,7 +122,7 @@ public class SiteViewModel extends ViewModel {
             if (site.getType() == 3) {
                 Spider spider = VodConfig.get().getSpider(site);
                 String detailContent = spider.detailContent(Arrays.asList(id));
-                SpiderDebug.log(detailContent);
+                Logger.d("Spider:"+detailContent);
                 VodConfig.get().setRecent(site);
                 Result result = Result.fromJson(detailContent);
                 if (!result.getList().isEmpty()) result.getList().get(0).setVodFlags();
@@ -140,7 +141,7 @@ public class SiteViewModel extends ViewModel {
                 params.put("ac", site.getType() == 0 ? "videolist" : "detail");
                 params.put("ids", id);
                 String detailContent = call(site, params, true);
-                SpiderDebug.log(detailContent);
+                Logger.d("Spider:"+detailContent);
                 Result result = Result.fromType(site.getType(), detailContent);
                 if (!result.getList().isEmpty()) result.getList().get(0).setVodFlags();
                 if (!result.getList().isEmpty()) checkThunder(result.getList().get(0).getVodFlags());
@@ -156,7 +157,7 @@ public class SiteViewModel extends ViewModel {
             if (site.getType() == 3) {
                 Spider spider = VodConfig.get().getSpider(site);
                 String playerContent = spider.playerContent(flag, id, VodConfig.get().getFlags());
-                SpiderDebug.log(playerContent);
+                Logger.d("Spider:"+playerContent);
                 VodConfig.get().setRecent(site);
                 Result result = Result.fromJson(playerContent);
                 if (result.getFlag().isEmpty()) result.setFlag(flag);
@@ -169,7 +170,7 @@ public class SiteViewModel extends ViewModel {
                 params.put("play", id);
                 params.put("flag", flag);
                 String playerContent = call(site, params, true);
-                SpiderDebug.log(playerContent);
+                Logger.d("Spider:"+playerContent);
                 Result result = Result.fromJson(playerContent);
                 if (result.getFlag().isEmpty()) result.setFlag(flag);
                 result.setUrl(Source.get().fetch(result));
@@ -192,7 +193,7 @@ public class SiteViewModel extends ViewModel {
                 result.setHeader(site.getHeader());
                 result.setPlayUrl(site.getPlayUrl());
                 result.setParse(Sniffer.isVideoFormat(url.v()) && result.getPlayUrl().isEmpty() ? 0 : 1);
-                SpiderDebug.log(result.toString());
+                Logger.d("Spider:"+result.toString());
                 return result;
             }
         });
@@ -202,14 +203,14 @@ public class SiteViewModel extends ViewModel {
         if (site.getType() == 3) {
             Spider spider = VodConfig.get().getSpider(site);
             String searchContent = spider.searchContent(Trans.t2s(keyword), quick);
-            SpiderDebug.log(site.getName() + "," + searchContent);
+            Logger.d("Spider:"+site.getName() + "," + searchContent);
             post(site, Result.fromJson(searchContent));
         } else {
             ArrayMap<String, String> params = new ArrayMap<>();
             params.put("wd", Trans.t2s(keyword));
             params.put("quick", String.valueOf(quick));
             String searchContent = call(site, params, true);
-            SpiderDebug.log(site.getName() + "," + searchContent);
+            Logger.d("Spider:"+site.getName() + "," + searchContent);
             post(site, fetchPic(site, Result.fromType(site.getType(), searchContent)));
         }
     }
@@ -219,7 +220,7 @@ public class SiteViewModel extends ViewModel {
             if (site.getType() == 3) {
                 Spider spider = VodConfig.get().getSpider(site);
                 String searchContent = spider.searchContent(Trans.t2s(keyword), false, page);
-                SpiderDebug.log(site.getName() + "," + searchContent);
+                Logger.d("Spider:"+site.getName() + "," + searchContent);
                 Result result = Result.fromJson(searchContent);
                 for (Vod vod : result.getList()) vod.setSite(site);
                 return result;
@@ -228,7 +229,7 @@ public class SiteViewModel extends ViewModel {
                 params.put("wd", Trans.t2s(keyword));
                 params.put("pg", page);
                 String searchContent = call(site, params, true);
-                SpiderDebug.log(site.getName() + "," + searchContent);
+                Logger.d("Spider:"+site.getName() + "," + searchContent);
                 Result result = fetchPic(site, Result.fromType(site.getType(), searchContent));
                 for (Vod vod : result.getList()) vod.setSite(site);
                 return result;

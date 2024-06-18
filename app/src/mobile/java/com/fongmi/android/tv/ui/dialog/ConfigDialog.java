@@ -14,6 +14,7 @@ import com.fongmi.android.tv.api.config.LiveConfig;
 import com.fongmi.android.tv.api.config.VodConfig;
 import com.fongmi.android.tv.api.config.WallConfig;
 import com.fongmi.android.tv.bean.Config;
+import com.fongmi.android.tv.bean.ConfigType;
 import com.fongmi.android.tv.databinding.DialogConfigBinding;
 import com.fongmi.android.tv.impl.ConfigCallback;
 import com.fongmi.android.tv.ui.custom.CustomTextListener;
@@ -30,13 +31,14 @@ public class ConfigDialog {
     private boolean append;
     private boolean edit;
     private String ori;
+    @ConfigType.Type
     private int type;
 
     public static ConfigDialog create(Fragment fragment) {
         return new ConfigDialog(fragment);
     }
 
-    public ConfigDialog type(int type) {
+    public ConfigDialog type(@ConfigType.Type int type) {
         this.type = type;
         return this;
     }

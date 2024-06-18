@@ -222,7 +222,10 @@ public class CustomWebView extends WebView implements DialogInterface.OnDismissL
     }
 
     private void onParseSuccess(Map<String, String> headers, String url) {
-        if (callback != null) callback.onParseSuccess(headers, url, from);
+        if (callback != null) {
+            Logger.t(TAG).i("Parse success :"+url);
+            callback.onParseSuccess(headers, url, from);
+        }
         App.post(() -> stop(false));
         callback = null;
     }

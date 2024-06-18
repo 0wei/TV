@@ -24,7 +24,7 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:maxLength="10"
-            android:singleLine="true" />
+            android:singleLine="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -42,8 +42,8 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
 </LinearLayout>

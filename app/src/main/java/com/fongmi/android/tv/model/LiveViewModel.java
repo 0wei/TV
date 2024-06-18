@@ -37,7 +37,6 @@ public class LiveViewModel extends ViewModel {
     public MutableLiveData<Channel> url;
     public MutableLiveData<Live> live;
     public MutableLiveData<Epg> epg;
-
     private ExecutorService executor1;
     private ExecutorService executor2;
     private ExecutorService executor3;

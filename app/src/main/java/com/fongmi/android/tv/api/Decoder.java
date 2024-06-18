@@ -20,6 +20,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Decoder {
 
+    /**
+     * 获取数据
+     */
     public static String getJson(String url) throws Exception {
         String key = url.contains(";") ? url.split(";")[2] : "";
         url = url.contains(";") ? url.split(";")[0] : url;
@@ -56,6 +59,9 @@ public class Decoder {
         }
     }
 
+    /**
+     * 请求 url ,返回数据
+     */
     private static String getData(String url) {
         if (url.startsWith("file")) return Path.read(url);
         if (url.startsWith("assets")) return Asset.read(url);

@@ -66,11 +66,12 @@ public class Config {
         this.id = id;
     }
 
+    @ConfigType.Type
     public int getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(@ConfigType.Type int type) {
         this.type = type;
     }
 
@@ -225,7 +226,7 @@ public class Config {
         return item == null ? create(type, url, name) : item.type(type).name(name);
     }
 
-    public static Config find(Config config, int type) {
+    public static Config find(Config config,@ConfigType.Type int type) {
         Config item = AppDatabase.get().getConfigDao().find(config.getUrl(), type);
         return item == null ? create(type, config.getUrl(), config.getName()) : item.type(type).name(config.getName());
     }

@@ -20,6 +20,7 @@ import com.fongmi.android.tv.api.config.LiveConfig;
 import com.fongmi.android.tv.api.config.VodConfig;
 import com.fongmi.android.tv.api.config.WallConfig;
 import com.fongmi.android.tv.bean.Config;
+import com.fongmi.android.tv.bean.ConfigType;
 import com.fongmi.android.tv.bean.Live;
 import com.fongmi.android.tv.bean.Site;
 import com.fongmi.android.tv.databinding.FragmentSettingBinding;
@@ -64,6 +65,7 @@ public class SettingFragment extends BaseFragment implements ConfigCallback, Sit
 
     private FragmentSettingBinding mBinding;
     private String[] backup;
+    @ConfigType.Type
     private int type;
 
     public static SettingFragment newInstance() {
@@ -153,7 +155,7 @@ public class SettingFragment extends BaseFragment implements ConfigCallback, Sit
 
     private void load(Config config) {
         switch (config.getType()) {
-            case 0:
+            case ConfigType.VOD:
                 Notify.progress(getActivity());
                 VodConfig.load(config, getCallback());
                 mBinding.vodUrl.setText(config.getDesc());
@@ -220,15 +222,15 @@ public class SettingFragment extends BaseFragment implements ConfigCallback, Sit
     }
 
     private void onVod(View view) {
-        ConfigDialog.create(this).type(type = 0).show();
+        ConfigDialog.create(this).type(type = ConfigType.VOD).show();
     }
 
     private void onLive(View view) {
-        ConfigDialog.create(this).type(type = 1).show();
+        ConfigDialog.create(this).type(type = ConfigType.Live).show();
     }
 
     private void onWall(View view) {
-        ConfigDialog.create(this).type(type = 2).show();
+        ConfigDialog.create(this).type(type = ConfigType.WALL).show();
     }
 
     private boolean onVodEdit(View view) {

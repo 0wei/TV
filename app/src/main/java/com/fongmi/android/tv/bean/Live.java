@@ -25,6 +25,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 一个直播源
+ */
 @Entity
 public class Live {
 
@@ -136,6 +139,7 @@ public class Live {
         this.url = url;
     }
 
+    @LiveType.Type
     public int getType() {
         return type;
     }

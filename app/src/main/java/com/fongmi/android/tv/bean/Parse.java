@@ -64,8 +64,9 @@ public class Parse {
         this.name = name;
     }
 
+    @ParseType.Type
     public Integer getType() {
-        return type == null ? 0 : type;
+        return type == null ? ParseType.WEB_SNIFFER : type;
     }
 
     public void setType(Integer type) {

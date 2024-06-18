@@ -10,6 +10,7 @@ import com.fongmi.android.tv.bean.ClearKey;
 import com.fongmi.android.tv.bean.Drm;
 import com.fongmi.android.tv.bean.Group;
 import com.fongmi.android.tv.bean.Live;
+import com.fongmi.android.tv.bean.LiveType;
 import com.fongmi.android.tv.player.Players;
 import com.fongmi.android.tv.utils.UrlUtil;
 import com.github.catvod.net.OkHttp;
@@ -41,7 +42,7 @@ public class LiveParser {
 
     public static void start(Live live) {
         if (live.getGroups().size() > 0) return;
-        if (live.getType() == 0) text(live, getText(live));
+        if (live.getType() == LiveType.TEXT) text(live, getText(live));
         if (live.getType() == 1) json(live, getText(live));
         if (live.getType() == 2) proxy(live, getText(live));
     }

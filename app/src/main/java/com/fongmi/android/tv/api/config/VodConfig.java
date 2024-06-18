@@ -9,6 +9,7 @@ import com.fongmi.android.tv.api.loader.JarLoader;
 import com.fongmi.android.tv.api.loader.JsLoader;
 import com.fongmi.android.tv.api.loader.PyLoader;
 import com.fongmi.android.tv.bean.Config;
+import com.fongmi.android.tv.bean.ConfigType;
 import com.fongmi.android.tv.bean.Depot;
 import com.fongmi.android.tv.bean.Parse;
 import com.fongmi.android.tv.bean.Rule;
@@ -207,7 +208,7 @@ public class VodConfig {
     }
 
     private void initLive(JsonObject object) {
-        Config temp = Config.find(config, 1).save();
+        Config temp = Config.find(config, ConfigType.Live).save();
         boolean sync = LiveConfig.get().needSync(config.getUrl());
         if (sync) LiveConfig.get().clear().config(temp).parse(object);
     }

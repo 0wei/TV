@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * 直播源中的一个频道
+ */
 public class Channel {
 
     @SerializedName("urls")
@@ -386,5 +389,33 @@ public class Channel {
         if (!(obj instanceof Channel)) return false;
         Channel it = (Channel) obj;
         return getName().equals(it.getName()) || (!getNumber().isEmpty() && getNumber().equals(it.getNumber()));
+    }
+
+    @Override
+    public String toString() {
+        return "Channel{" +
+                "urls=" + urls +
+                ", tvgName='" + tvgName + '\'' +
+                ", number='" + number + '\'' +
+                ", logo='" + logo + '\'' +
+                ", epg='" + epg + '\'' +
+                ", name='" + name + '\'' +
+                ", ua='" + ua + '\'' +
+                ", click='" + click + '\'' +
+                ", format='" + format + '\'' +
+                ", origin='" + origin + '\'' +
+                ", referer='" + referer + '\'' +
+                ", catchup=" + catchup +
+                ", header=" + header +
+                ", playerType=" + playerType +
+                ", parse=" + parse +
+                ", drm=" + drm +
+                ", selected=" + selected +
+                ", group=" + group +
+                ", url='" + url + '\'' +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                ", line=" + line +
+                '}';
     }
 }

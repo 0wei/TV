@@ -416,6 +416,7 @@ public class Players implements Player.Listener, IMediaPlayer.Listener, Analytic
     }
 
     public void start(Channel channel, int timeout) {
+        Logger.t(TAG).d("Start channel:"+channel);
         if (channel.hasMsg()) {
             ErrorEvent.extract(channel.getMsg());
         } else if (channel.getParse() == 1) {
